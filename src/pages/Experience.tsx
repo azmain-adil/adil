@@ -26,7 +26,7 @@ const experienceData: ExperienceItem[] = [
       "Organizing career development workshops and training sessions."
     ],
     logoUrl: "/lovable-uploads/775c8700-df6b-4746-ab9b-800f665fa35a.png",
-    website: "https://www.facebook.com/ducareers/"
+    website: "https://www.facebook.com/Ducareerclub"
   },
   {
     title: "Lecturer of Marketing",
@@ -52,7 +52,8 @@ const experienceData: ExperienceItem[] = [
       "Ensured grammatical accuracy and consistency in written materials.",
       "Collaborated with content creators to improve quality of publications."
     ],
-    logoUrl: "/lovable-uploads/26ec99ce-cd69-43eb-864a-a7e19cbe1bd5.png"
+    logoUrl: "/lovable-uploads/26ec99ce-cd69-43eb-864a-a7e19cbe1bd5.png",
+    website: "https://www.facebook.com/chorcha.net"
   }
 ];
 
