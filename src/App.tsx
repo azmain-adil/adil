@@ -24,12 +24,12 @@ const App = () => {
   useEffect(() => {
     // Preload the logo images for education institutions and organizations
     const imagesToPreload = [
-      '/du-logo.png',
-      '/dcc-logo.png',
-      '/dgbhs-logo.png',
-      '/ducc-logo.png',
-      '/chorcha-logo.png',
-      '/ucc-logo.png'
+      '/lovable-uploads/c06ecbd1-22b3-4019-af2b-ae2ef440642b.png', // DU
+      '/lovable-uploads/23156ebc-93dc-4fc9-929a-e2b4cfd7bca3.png', // SSC
+      '/lovable-uploads/42b71d22-1c94-4735-b4a3-79455ee9891f.png', // HSC
+      '/lovable-uploads/775c8700-df6b-4746-ab9b-800f665fa35a.png', // DUCC
+      '/lovable-uploads/26ec99ce-cd69-43eb-864a-a7e19cbe1bd5.png', // CHORCHA
+      '/lovable-uploads/ec06f525-c208-499c-9f33-509fad6c7949.png'  // UCC
     ];
     
     imagesToPreload.forEach(src => {

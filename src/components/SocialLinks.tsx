@@ -43,7 +43,7 @@ const SocialLinks: React.FC<SocialLinksProps> = ({
           href={link.href}
           target="_blank"
           rel="noopener noreferrer"
-          className={`flex items-center justify-center p-2.5 rounded-full border border-gray-300 dark:border-gray-700 transition-all duration-300 hover:scale-110 ${link.color}`}
+          className={`flex items-center justify-center p-2 rounded-full border border-gray-300 dark:border-gray-700 transition-all duration-300 hover:scale-110 ${link.color}`}
           aria-label={link.label}
           whileHover={{ 
             y: -3,

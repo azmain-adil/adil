@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Briefcase, Calendar, ExternalLink } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 interface ExperienceItem {
   title: string;
@@ -24,7 +25,7 @@ const experienceData: ExperienceItem[] = [
       "Coordinating recruitment drives and member onboarding processes.",
       "Organizing career development workshops and training sessions."
     ],
-    logoUrl: "/ducc-logo.png",
+    logoUrl: "/lovable-uploads/775c8700-df6b-4746-ab9b-800f665fa35a.png",
     website: "https://www.facebook.com/ducareers/"
   },
   {
@@ -38,7 +39,7 @@ const experienceData: ExperienceItem[] = [
       "Providing guidance on entrance examination preparation.",
       "Conducting regular assessment tests to monitor student progress."
     ],
-    logoUrl: "/ucc-logo.png",
+    logoUrl: "/lovable-uploads/ec06f525-c208-499c-9f33-509fad6c7949.png",
     website: "https://www.facebook.com/uccgroup/"
   },
   {
@@ -51,7 +52,7 @@ const experienceData: ExperienceItem[] = [
       "Ensured grammatical accuracy and consistency in written materials.",
       "Collaborated with content creators to improve quality of publications."
     ],
-    logoUrl: "/chorcha-logo.png"
+    logoUrl: "/lovable-uploads/26ec99ce-cd69-43eb-864a-a7e19cbe1bd5.png"
   }
 ];
 
@@ -80,13 +81,22 @@ const Experience: React.FC = () => {
             >
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-shrink-0 flex justify-center md:justify-start">
-                  <div className="w-24 h-24 rounded-md overflow-hidden bg-white p-2 shadow-md transform transition-transform hover:scale-110">
+                  <motion.div 
+                    className="w-24 h-24 rounded-md overflow-hidden bg-white p-2 shadow-md"
+                    whileHover={{ 
+                      scale: 1.1, 
+                      rotate: -3,
+                      boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)"
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 10 }}
+                  >
                     <img 
                       src={experience.logoUrl} 
                       alt={`${experience.company} logo`}
                       className="w-full h-full object-contain"
+                      loading="lazy"
                     />
-                  </div>
+                  </motion.div>
                 </div>
                 
                 <div className="flex-1">
@@ -96,20 +106,23 @@ const Experience: React.FC = () => {
                       <div className="flex items-center">
                         <p className="text-lg font-medium text-primary">{experience.company}</p>
                         {experience.website && (
-                          <a 
+                          <motion.a 
                             href={experience.website} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="ml-2 text-gray-500 hover:text-primary transition-colors"
+                            whileHover={{ scale: 1.2 }}
                           >
                             <ExternalLink className="w-4 h-4" />
-                          </a>
+                          </motion.a>
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center mt-2 md:mt-0 text-gray-600 dark:text-gray-400">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      <span>{experience.duration}</span>
+                    <div className="flex items-center mt-2 md:mt-0">
+                      <Badge variant="outline" className="flex items-center gap-1.5">
+                        <Calendar className="w-3.5 h-3.5" />
+                        <span>{experience.duration}</span>
+                      </Badge>
                     </div>
                   </div>
                   
@@ -119,10 +132,17 @@ const Experience: React.FC = () => {
                   
                   <ul className="mt-4 space-y-2">
                     {experience.description.map((item, i) => (
-                      <li key={i} className="flex items-start group">
+                      <motion.li 
+                        key={i} 
+                        className="flex items-start group"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.3 + (i * 0.1) }}
+                        whileHover={{ x: 5 }}
+                      >
                         <span className="text-primary mr-2 group-hover:scale-110 transition-transform">•</span>
                         <span className="group-hover:text-primary transition-colors">{item}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </div>
