@@ -19,6 +19,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   const [loadingComplete, setLoadingComplete] = useState(false);
 
   useEffect(() => {
+    // Create blurred universe in the background
+    const blurredUniverse = document.createElement('div');
+    blurredUniverse.className = 'blurred-universe absolute w-full h-full';
+    document.body.appendChild(blurredUniverse);
+
     // Create stars in the background
     const starryNight = document.createElement('div');
     starryNight.className = 'starry-night';
@@ -69,6 +74,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
               if (starryNight.parentNode) {
                 starryNight.parentNode.removeChild(starryNight);
               }
+              if (blurredUniverse.parentNode) {
+                blurredUniverse.parentNode.removeChild(blurredUniverse);
+              }
               onComplete();
             }, 1000);
           }, 500);
@@ -85,6 +93,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       if (starryNight.parentNode) {
         starryNight.parentNode.removeChild(starryNight);
       }
+      if (blurredUniverse.parentNode) {
+        blurredUniverse.parentNode.removeChild(blurredUniverse);
+      }
     };
   }, [onComplete]);
 
@@ -94,17 +105,19 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     <AnimatePresence>
       {!loadingComplete && (
         <motion.div
-          className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a0a20] z-50"
+          className="fixed inset-0 flex flex-col items-center justify-center bg-[#0a0a20] z-50 overflow-hidden"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
+          <div className="blurred-universe absolute w-full h-full animate-blurred-universe-move"></div>
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             key={currentMessage.text}
             transition={{ duration: 0.5 }}
-            className="text-center"
+            className="text-center z-10"
           >
             <h1 className="text-white text-5xl md:text-7xl font-heading font-bold mb-4">
               {currentMessage.text}
@@ -114,7 +127,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
             </p>
           </motion.div>
           
-          <div className="mt-16 w-64">
+          <div className="mt-16 w-64 z-10">
             <div className="windows-loader"></div>
           </div>
         </motion.div>

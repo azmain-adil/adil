@@ -1,10 +1,10 @@
-
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import VerifiedBadge from './VerifiedBadge';
+import { motion } from 'framer-motion';
 
 const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -41,10 +41,12 @@ const Navbar: React.FC = () => {
         <div className="flex items-center space-x-2">
           <NavLink 
             to="/"
-            className="text-xl font-bold font-heading text-gray-900 dark:text-white hover:text-primary transition-colors duration-200 flex items-center space-x-2"
+            className="text-xl font-bold font-heading text-gray-900 dark:text-white hover:text-primary transition-colors duration-200 flex items-center gap-2"
           >
-            <span>Azmain Adil</span>
-            <VerifiedBadge size={22} />
+            <span className="inline-flex items-center">
+              Azmain Adil
+              <VerifiedBadge size={22} className="ml-1.5" />
+            </span>
           </NavLink>
         </div>
 
@@ -55,7 +57,7 @@ const Navbar: React.FC = () => {
               key={item.name}
               to={item.path}
               className={({ isActive }) => cn(
-                'text-base font-medium transition-all hover-effect',
+                'text-base font-medium transition-all hover-effect relative group',
                 {
                   'text-primary dark:text-primary': isActive,
                   'text-gray-700 dark:text-gray-200': !isActive,
@@ -63,12 +65,13 @@ const Navbar: React.FC = () => {
               )}
             >
               {item.name}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
             </NavLink>
           ))}
           
           <button 
             onClick={toggleTheme}
-            className="theme-switch p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="theme-switch p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300 ml-4"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
@@ -83,7 +86,7 @@ const Navbar: React.FC = () => {
         <div className="flex items-center md:hidden space-x-4">
           <button 
             onClick={toggleTheme}
-            className="theme-switch p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            className="theme-switch p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
             aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
           >
             {theme === 'dark' ? (
@@ -96,7 +99,7 @@ const Navbar: React.FC = () => {
           <button 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
-            className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
           >
             {mobileMenuOpen ? (
               <X className="w-6 h-6" />
@@ -109,7 +112,13 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-slate-900 mt-4 py-4 px-6 rounded-lg shadow-lg">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+          className="md:hidden bg-white dark:bg-slate-900 mt-4 py-4 px-6 rounded-lg shadow-lg"
+        >
           <nav className="flex flex-col space-y-4">
             {navItems.map((item) => (
               <NavLink
@@ -128,7 +137,7 @@ const Navbar: React.FC = () => {
               </NavLink>
             ))}
           </nav>
-        </div>
+        </motion.div>
       )}
     </header>
   );
