@@ -22,11 +22,14 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Preload the logo images for education institutions
+    // Preload the logo images for education institutions and organizations
     const imagesToPreload = [
       '/du-logo.png',
       '/dcc-logo.png',
-      '/dgbhs-logo.png'
+      '/dgbhs-logo.png',
+      '/ducc-logo.png',
+      '/chorcha-logo.png',
+      '/ucc-logo.png'
     ];
     
     imagesToPreload.forEach(src => {

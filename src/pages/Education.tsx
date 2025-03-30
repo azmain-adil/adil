@@ -68,7 +68,7 @@ const Education: React.FC = () => {
             >
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-shrink-0 flex justify-center md:justify-start">
-                  <div className="w-24 h-24 rounded-md overflow-hidden bg-white p-2 shadow-md">
+                  <div className="w-24 h-24 rounded-md overflow-hidden bg-white p-2 shadow-md transform transition-transform hover:scale-110">
                     <img 
                       src={education.logoUrl} 
                       alt={`${education.institution} logo`}
