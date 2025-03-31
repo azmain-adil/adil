@@ -96,8 +96,13 @@
     cursor: none;
   }
   
-  input, textarea, select, [type="checkbox"], [type="radio"] {
-    cursor: auto;
+  input, textarea, select, [type="checkbox"], [type="radio"], select, [contenteditable="true"] {
+    cursor: text;
+  }
+
+  button, a, [role="button"], label, [type="radio"] + label, [type="checkbox"] + label {
+    cursor: none;
+    -webkit-tap-highlight-color: transparent;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -109,7 +114,8 @@
   }
 
   .page-wrapper {
-    @apply min-h-screen;
+    @apply min-h-screen overflow-hidden relative;
+    will-change: opacity, transform;
   }
 
   .underline-animation {
@@ -139,7 +145,7 @@
   }
   
   .hover-effect {
-    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg;
+    @apply transition-all duration-300 ease-out hover:scale-103 hover:shadow-lg;
   }
   
   .blurred-universe {
@@ -195,31 +201,36 @@
 }
 
 .education-logo {
-  filter: grayscale(40%);
-  transition: all 0.5s ease;
+  filter: grayscale(30%);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .education-logo:hover {
   filter: grayscale(0%);
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px -5px rgba(var(--primary), 0.3);
 }
 
 .page-transition-enter {
   opacity: 0;
+  transform: translateY(20px);
 }
 
 .page-transition-enter-active {
   opacity: 1;
-  transition: opacity 300ms;
+  transform: translateY(0);
+  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page-transition-exit {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .page-transition-exit-active {
   opacity: 0;
-  transition: opacity 300ms;
+  transform: translateY(-20px);
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .badge-verified {
@@ -274,7 +285,7 @@
 
 .theme-switch {
   position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .theme-switch::before {
@@ -336,7 +347,7 @@
 }
 
 .hover-scale {
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .hover-scale:hover {
@@ -344,7 +355,7 @@
 }
 
 .hover-rotate {
-  transition: transform 0.5s ease;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .hover-rotate:hover {
@@ -373,15 +384,15 @@
 
 .cursor-effect {
   position: fixed;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   background: rgba(var(--primary), 0.3);
   mix-blend-mode: difference;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 9999;
-  transition: transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease;
+  will-change: transform;
 }
 
 @keyframes float-enhanced {
@@ -411,7 +422,7 @@
 .page-transition-enter-active {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 400ms ease-out, transform 400ms ease-out;
+  transition: opacity 400ms cubic-bezier(0.16, 1, 0.3, 1), transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page-transition-exit {
@@ -422,7 +433,7 @@
 .page-transition-exit-active {
   opacity: 0;
   transform: translateY(-20px);
-  transition: opacity 300ms ease-in, transform 300ms ease-in;
+  transition: opacity 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 button, a {
@@ -458,5 +469,11 @@ button:active, a:active {
   50% {
     opacity: 0.7;
     transform: scale(0.95);
+  }
+}
+
+@layer utilities {
+  .scale-103 {
+    transform: scale(1.03);
   }
 }

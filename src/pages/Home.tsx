@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Star } from 'lucide-react';
@@ -6,7 +7,16 @@ import VerifiedBadge from '@/components/VerifiedBadge';
 import Skills from '@/components/Skills';
 import TechNews from '@/components/TechNews';
 
-const Home: React.FC = () => {
+// Add pageVariants prop
+interface HomeProps {
+  pageVariants?: {
+    initial: any;
+    animate: any;
+    exit: any;
+  };
+}
+
+const Home: React.FC<HomeProps> = ({ pageVariants }) => {
   const universeRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -69,23 +79,26 @@ const Home: React.FC = () => {
     };
   }, []);
   
-  // Page transition variants
-  const pageVariants = {
+  // Use provided pageVariants or default ones
+  const defaultVariants = {
     initial: { opacity: 0, y: 20 },
-    enter: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    animate: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
     exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeIn' } }
   };
+  
+  const variants = pageVariants || defaultVariants;
   
   return (
     <motion.div
       initial="initial"
-      animate="enter"
+      animate="animate"
       exit="exit"
-      variants={pageVariants}
+      variants={variants}
       className="min-h-screen relative pt-20 overflow-hidden"
     >
       <div ref={universeRef} className="blurred-universe"></div>
       
+      {/* Hero Section */}
       <div className="section-container flex flex-col min-h-[calc(100vh-80px)] justify-center relative">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -150,6 +163,7 @@ const Home: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* About Section */}
       <div id="scroll-down" className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -172,6 +186,7 @@ const Home: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* Skills Section */}
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -183,6 +198,7 @@ const Home: React.FC = () => {
         </motion.div>
       </div>
 
+      {/* Tech News Section */}
       <div className="section-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
