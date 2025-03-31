@@ -18,27 +18,24 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Page transition animations - improved for smoother transitions
+// Consistent page transition animations for all pages
 const pageVariants = {
   initial: { 
     opacity: 0, 
-    y: 10,
-    scale: 0.98
+    y: 10
   },
   animate: { 
     opacity: 1, 
     y: 0,
-    scale: 1,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1.0], // Cubic bezier curve for smoother easing
+      ease: [0.25, 0.1, 0.25, 1.0],
       when: "beforeChildren",
       staggerChildren: 0.1
     }
   },
   exit: { 
     opacity: 0,
-    scale: 0.98,
     y: -10,
     transition: {
       duration: 0.4,
@@ -47,17 +44,7 @@ const pageVariants = {
   }
 };
 
-// Child elements staggered animation
-const childVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { duration: 0.4 }
-  }
-};
-
-// AnimatedRoutes component for page transitions
+// AnimatedRoutes component for consistent page transitions
 const AnimatedRoutes = () => {
   const location = useLocation();
   
@@ -70,7 +57,7 @@ const AnimatedRoutes = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="page-transition-wrapper"
+            className="page-wrapper"
           >
             <Home />
           </motion.div>
@@ -81,7 +68,7 @@ const AnimatedRoutes = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="page-transition-wrapper"
+            className="page-wrapper"
           >
             <Experience />
           </motion.div>
@@ -92,7 +79,7 @@ const AnimatedRoutes = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="page-transition-wrapper"
+            className="page-wrapper"
           >
             <Education />
           </motion.div>
@@ -103,7 +90,7 @@ const AnimatedRoutes = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="page-transition-wrapper"
+            className="page-wrapper"
           >
             <Contact />
           </motion.div>
@@ -114,7 +101,7 @@ const AnimatedRoutes = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="page-transition-wrapper"
+            className="page-wrapper"
           >
             <NotFound />
           </motion.div>

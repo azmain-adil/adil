@@ -22,7 +22,7 @@ const CursorEffect: React.FC = () => {
             cursorDotRef.current.style.left = `${e.clientX}px`;
             cursorDotRef.current.style.top = `${e.clientY}px`;
           }
-        }, 50); // Reduced delay for better responsiveness
+        }, 40); // Reduced delay for better responsiveness
       }
     };
 
@@ -60,7 +60,7 @@ const CursorEffect: React.FC = () => {
       // General interactive elements
       interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
-          setCursorScale(2);
+          setCursorScale(1.5);
           setCursorColor('rgba(147, 112, 219, 0.3)'); // Lighter purple on hover
           
           if (cursorRef.current) {
@@ -90,7 +90,7 @@ const CursorEffect: React.FC = () => {
       // Special effect for headings
       headings.forEach((heading) => {
         heading.addEventListener('mouseenter', () => {
-          setCursorScale(3);
+          setCursorScale(1.5);
           setCursorColor('rgba(147, 112, 219, 0.2)');
           
           // Add a text shadow to headings
@@ -110,7 +110,7 @@ const CursorEffect: React.FC = () => {
       // Special effect for images
       images.forEach((image) => {
         image.addEventListener('mouseenter', () => {
-          setCursorScale(2.5);
+          setCursorScale(1.5);
           setCursorColor('rgba(147, 112, 219, 0.15)');
           
           // Add a subtle zoom effect to images
@@ -155,6 +155,8 @@ const CursorEffect: React.FC = () => {
           transition: 'transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease',
           mixBlendMode: 'difference',
           display: 'block',
+          width: '24px',  // Normal size cursor
+          height: '24px', // Normal size cursor
           borderRadius: '50%',
           backdropFilter: 'blur(2px)'
         }}
