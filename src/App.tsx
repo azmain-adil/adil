@@ -22,45 +22,14 @@ const queryClient = new QueryClient();
 const AnimatedRoutes = () => {
   const location = useLocation();
   
-  // Enhanced page transition settings
-  const pageVariants = {
-    initial: {
-      opacity: 0,
-      y: 20,
-    },
-    animate: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
-        mass: 1
-      }
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      transition: {
-        duration: 0.3,
-        ease: [0.43, 0.13, 0.23, 0.96] // Custom easing for smoother exit
-      }
-    }
-  };
-
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [location.pathname]);
-  
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home pageVariants={pageVariants} />} />
-        <Route path="/experience" element={<Experience pageVariants={pageVariants} />} />
-        <Route path="/education" element={<Education pageVariants={pageVariants} />} />
-        <Route path="/contact" element={<Contact pageVariants={pageVariants} />} />
-        <Route path="*" element={<NotFound pageVariants={pageVariants} />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/experience" element={<Experience />} />
+        <Route path="/education" element={<Education />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );

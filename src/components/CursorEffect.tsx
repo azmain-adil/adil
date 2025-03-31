@@ -13,18 +13,16 @@ const CursorEffect: React.FC = () => {
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       if (cursorRef.current && cursorDotRef.current) {
-        const posX = e.clientX;
-        const posY = e.clientY;
-        
-        // Add smoother animation with transform and transition
-        cursorRef.current.style.transform = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%) scale(${cursorScale})`;
+        cursorRef.current.style.left = `${e.clientX}px`;
+        cursorRef.current.style.top = `${e.clientY}px`;
         
         // Small delay for the dot cursor for a trailing effect
         setTimeout(() => {
           if (cursorDotRef.current) {
-            cursorDotRef.current.style.transform = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)`;
+            cursorDotRef.current.style.left = `${e.clientX}px`;
+            cursorDotRef.current.style.top = `${e.clientY}px`;
           }
-        }, 50);
+        }, 80);
       }
     };
 
@@ -40,7 +38,7 @@ const CursorEffect: React.FC = () => {
         rippleRef.current.style.animation = 'none';
         // Trigger reflow
         void rippleRef.current.offsetWidth;
-        rippleRef.current.style.animation = 'ripple 1s cubic-bezier(0.22, 0.61, 0.36, 1)';
+        rippleRef.current.style.animation = 'ripple 0.8s ease-out';
       }
     };
 
@@ -53,7 +51,7 @@ const CursorEffect: React.FC = () => {
     const addHoverEffectToElements = () => {
       // Interactive elements with hover effects
       const interactiveElements = document.querySelectorAll(
-        'a, button, input, textarea, [role="button"], .hover-effect, .education-logo, .hover-card, .underline-animation, .skill-item'
+        'a, button, input, textarea, [role="button"], .hover-effect, .education-logo, .hover-card, .underline-animation'
       );
 
       const headings = document.querySelectorAll('h1, h2, h3');
@@ -62,16 +60,15 @@ const CursorEffect: React.FC = () => {
       // General interactive elements
       interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
-          setCursorScale(2.5);
+          setCursorScale(2);
           setCursorColor('rgba(var(--primary), 0.2)');
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'normal';
-            cursorRef.current.style.backdropFilter = 'blur(4px)';
           }
 
           // Add a subtle transform to the element
-          (element as HTMLElement).style.transition = 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+          (element as HTMLElement).style.transition = 'transform 0.3s ease';
           (element as HTMLElement).style.transform = 'translateY(-2px)';
         });
 
@@ -81,7 +78,6 @@ const CursorEffect: React.FC = () => {
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'difference';
-            cursorRef.current.style.backdropFilter = 'none';
           }
 
           // Reset transform
@@ -95,9 +91,9 @@ const CursorEffect: React.FC = () => {
           setCursorScale(3);
           setCursorColor('rgba(var(--primary), 0.1)');
           
-          // Add a text glow effect to headings
+          // Add a text shadow to headings
           (heading as HTMLElement).style.transition = 'text-shadow 0.3s ease';
-          (heading as HTMLElement).style.textShadow = '0 0 8px rgba(var(--primary), 0.4)';
+          (heading as HTMLElement).style.textShadow = '0 0 10px rgba(var(--primary), 0.4)';
         });
 
         heading.addEventListener('mouseleave', () => {
@@ -116,9 +112,9 @@ const CursorEffect: React.FC = () => {
           setCursorColor('rgba(var(--primary), 0.15)');
           
           // Add a subtle zoom effect to images
-          (image as HTMLElement).style.transition = 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.4s ease';
+          (image as HTMLElement).style.transition = 'filter 0.3s ease, transform 0.3s ease';
           (image as HTMLElement).style.filter = 'brightness(1.05)';
-          (image as HTMLElement).style.transform = 'scale(1.03)';
+          (image as HTMLElement).style.transform = 'scale(1.02)';
         });
 
         image.addEventListener('mouseleave', () => {
@@ -143,22 +139,19 @@ const CursorEffect: React.FC = () => {
       document.removeEventListener('click', handleClick);
       clearInterval(intervalId);
     };
-  }, [cursorScale, cursorColor]);
+  }, []);
 
   return (
     <>
       <div 
         ref={cursorRef}
-        className="fixed pointer-events-none z-[9999]"
+        className="cursor-effect"
         style={{ 
-          width: '30px',
-          height: '30px',
-          borderRadius: '50%',
-          backgroundColor: cursorColor,
           opacity: cursorVisible ? 1 : 0,
-          transition: 'opacity 0.2s ease, background-color 0.3s ease, transform 0.1s ease',
-          mixBlendMode: 'difference',
-          willChange: 'transform'
+          transform: `translate(-50%, -50%) scale(${cursorScale})`,
+          backgroundColor: cursorColor,
+          transition: 'transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease',
+          mixBlendMode: 'difference'
         }}
       />
       <div
@@ -166,19 +159,14 @@ const CursorEffect: React.FC = () => {
         className="fixed w-2 h-2 bg-primary rounded-full pointer-events-none z-[9999]"
         style={{
           opacity: cursorVisible ? 1 : 0,
-          transition: 'opacity 0.2s ease, transform 0.12s ease',
-          willChange: 'transform'
+          transform: 'translate(-50%, -50%)',
+          transition: 'opacity 0.2s ease',
         }}
       />
       <div
         ref={rippleRef}
-        className="fixed pointer-events-none z-[9998]"
+        className="ripple-effect fixed pointer-events-none z-[9998]"
         style={{
-          width: '40px',
-          height: '40px',
-          borderRadius: '50%',
-          backgroundColor: 'rgba(var(--primary), 0.4)',
-          transform: 'translate(-50%, -50%) scale(0)',
           left: `${lastClickPosition.x}px`,
           top: `${lastClickPosition.y}px`,
         }}
