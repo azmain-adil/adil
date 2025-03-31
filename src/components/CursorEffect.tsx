@@ -5,7 +5,7 @@ const CursorEffect: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const rippleRef = useRef<HTMLDivElement>(null);
-  const [cursorVisible, setCursorVisible] = useState(false);
+  const [cursorVisible, setCursorVisible] = useState(true);
   const [cursorScale, setCursorScale] = useState(1);
   const [cursorColor, setCursorColor] = useState('rgba(var(--primary), 0.3)');
   const [lastClickPosition, setLastClickPosition] = useState({ x: 0, y: 0 });
@@ -151,7 +151,8 @@ const CursorEffect: React.FC = () => {
           transform: `translate(-50%, -50%) scale(${cursorScale})`,
           backgroundColor: cursorColor,
           transition: 'transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease',
-          mixBlendMode: 'difference'
+          mixBlendMode: 'difference',
+          display: 'block'
         }}
       />
       <div
@@ -161,6 +162,7 @@ const CursorEffect: React.FC = () => {
           opacity: cursorVisible ? 1 : 0,
           transform: 'translate(-50%, -50%)',
           transition: 'opacity 0.2s ease',
+          display: 'block'
         }}
       />
       <div

@@ -96,6 +96,10 @@
     cursor: none;
   }
   
+  a, button, .btn, [role="button"], .clickable {
+    cursor: none;
+  }
+  
   input, textarea, select, [type="checkbox"], [type="radio"] {
     cursor: auto;
   }
@@ -382,6 +386,7 @@
   transform: translate(-50%, -50%);
   z-index: 9999;
   transition: transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease;
+  display: block !important;
 }
 
 @keyframes float-enhanced {
