@@ -7,7 +7,7 @@ const CursorEffect: React.FC = () => {
   const rippleRef = useRef<HTMLDivElement>(null);
   const [cursorVisible, setCursorVisible] = useState(true);
   const [cursorScale, setCursorScale] = useState(1);
-  const [cursorColor, setCursorColor] = useState('rgba(var(--primary), 0.3)');
+  const [cursorColor, setCursorColor] = useState('rgba(147, 112, 219, 0.6)'); // Purple color with transparency
   const [lastClickPosition, setLastClickPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const CursorEffect: React.FC = () => {
             cursorDotRef.current.style.left = `${e.clientX}px`;
             cursorDotRef.current.style.top = `${e.clientY}px`;
           }
-        }, 80);
+        }, 50); // Reduced delay for better responsiveness
       }
     };
 
@@ -61,10 +61,11 @@ const CursorEffect: React.FC = () => {
       interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
           setCursorScale(2);
-          setCursorColor('rgba(var(--primary), 0.2)');
+          setCursorColor('rgba(147, 112, 219, 0.3)'); // Lighter purple on hover
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'normal';
+            cursorRef.current.style.boxShadow = '0 0 15px rgba(147, 112, 219, 0.8)'; // Purple glow
           }
 
           // Add a subtle transform to the element
@@ -74,10 +75,11 @@ const CursorEffect: React.FC = () => {
 
         element.addEventListener('mouseleave', () => {
           setCursorScale(1);
-          setCursorColor('rgba(var(--primary), 0.3)');
+          setCursorColor('rgba(147, 112, 219, 0.6)');
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'difference';
+            cursorRef.current.style.boxShadow = 'none';
           }
 
           // Reset transform
@@ -89,16 +91,16 @@ const CursorEffect: React.FC = () => {
       headings.forEach((heading) => {
         heading.addEventListener('mouseenter', () => {
           setCursorScale(3);
-          setCursorColor('rgba(var(--primary), 0.1)');
+          setCursorColor('rgba(147, 112, 219, 0.2)');
           
           // Add a text shadow to headings
           (heading as HTMLElement).style.transition = 'text-shadow 0.3s ease';
-          (heading as HTMLElement).style.textShadow = '0 0 10px rgba(var(--primary), 0.4)';
+          (heading as HTMLElement).style.textShadow = '0 0 10px rgba(147, 112, 219, 0.6)';
         });
 
         heading.addEventListener('mouseleave', () => {
           setCursorScale(1);
-          setCursorColor('rgba(var(--primary), 0.3)');
+          setCursorColor('rgba(147, 112, 219, 0.6)');
           
           // Reset text shadow
           (heading as HTMLElement).style.textShadow = 'none';
@@ -109,7 +111,7 @@ const CursorEffect: React.FC = () => {
       images.forEach((image) => {
         image.addEventListener('mouseenter', () => {
           setCursorScale(2.5);
-          setCursorColor('rgba(var(--primary), 0.15)');
+          setCursorColor('rgba(147, 112, 219, 0.15)');
           
           // Add a subtle zoom effect to images
           (image as HTMLElement).style.transition = 'filter 0.3s ease, transform 0.3s ease';
@@ -119,7 +121,7 @@ const CursorEffect: React.FC = () => {
 
         image.addEventListener('mouseleave', () => {
           setCursorScale(1);
-          setCursorColor('rgba(var(--primary), 0.3)');
+          setCursorColor('rgba(147, 112, 219, 0.6)');
           
           // Reset filter and transform
           (image as HTMLElement).style.filter = 'brightness(1)';
@@ -152,17 +154,20 @@ const CursorEffect: React.FC = () => {
           backgroundColor: cursorColor,
           transition: 'transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease',
           mixBlendMode: 'difference',
-          display: 'block'
+          display: 'block',
+          borderRadius: '50%',
+          backdropFilter: 'blur(2px)'
         }}
       />
       <div
         ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-primary rounded-full pointer-events-none z-[9999]"
+        className="fixed w-2 h-2 bg-purple-400 rounded-full pointer-events-none z-[9999]"
         style={{
           opacity: cursorVisible ? 1 : 0,
           transform: 'translate(-50%, -50%)',
           transition: 'opacity 0.2s ease',
-          display: 'block'
+          display: 'block',
+          boxShadow: '0 0 5px rgba(147, 112, 219, 0.8)'
         }}
       />
       <div
@@ -171,6 +176,7 @@ const CursorEffect: React.FC = () => {
         style={{
           left: `${lastClickPosition.x}px`,
           top: `${lastClickPosition.y}px`,
+          backgroundColor: 'rgba(147, 112, 219, 0.3)'
         }}
       />
     </>

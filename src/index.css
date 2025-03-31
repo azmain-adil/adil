@@ -304,7 +304,7 @@
 .ripple-effect {
   width: 10px;
   height: 10px;
-  background-color: rgba(var(--primary), 0.4);
+  background-color: rgba(147, 112, 219, 0.4);
   border-radius: 50%;
   transform: translate(-50%, -50%) scale(0);
   pointer-events: none;
@@ -380,13 +380,14 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: rgba(var(--primary), 0.3);
+  background: rgba(147, 112, 219, 0.6);
   mix-blend-mode: difference;
   pointer-events: none;
   transform: translate(-50%, -50%);
   z-index: 9999;
   transition: transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease;
   display: block !important;
+  box-shadow: 0 0 10px rgba(147, 112, 219, 0.4);
 }
 
 @keyframes float-enhanced {
@@ -406,6 +407,20 @@
 
 .float-enhanced {
   animation: float-enhanced 6s ease-in-out infinite;
+}
+
+.page-transition-wrapper {
+  isolation: isolate;
+  width: 100%;
+}
+
+@keyframes pulse-purple {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(147, 112, 219, 0.8);
+  }
 }
 
 .page-transition-enter {
