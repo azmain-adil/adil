@@ -58,10 +58,45 @@ const experienceData: ExperienceItem[] = [
 ];
 
 const Experience: React.FC = () => {
+  // Page transition variants
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeIn' } }
+  };
+
+  // Item animation variants
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.5,
+        ease: "easeOut"
+      }
+    })
+  };
+
+  // List animation variants
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3
+      }
+    }
+  };
+  
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={pageVariants}
       className="min-h-screen pt-24 pb-16"
     >
       <div className="section-container">
@@ -70,15 +105,19 @@ const Experience: React.FC = () => {
           <span>Professional Experience</span>
         </h1>
 
-        <div className="mt-10 space-y-12">
+        <motion.div 
+          initial="hidden"
+          animate="visible"
+          variants={listVariants}
+          className="mt-10 space-y-12"
+        >
           {experienceData.map((experience, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="relative hover-effect p-6 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-300 hover:border-primary/30"
+              custom={index}
+              variants={itemVariants}
+              whileHover={{ scale: 1.02 }}
+              className="relative hover-effect p-6 rounded-lg border border-gray-200 dark:border-gray-800 hover:shadow-lg transition-all duration-500 hover:border-primary/30"
             >
               <div className="flex flex-col md:flex-row gap-6">
                 <div className="flex-shrink-0 flex justify-center md:justify-start">
@@ -112,7 +151,8 @@ const Experience: React.FC = () => {
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="ml-2 text-gray-500 hover:text-primary transition-colors"
-                            whileHover={{ scale: 1.2 }}
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            whileTap={{ scale: 0.9 }}
                           >
                             <ExternalLink className="w-4 h-4" />
                           </motion.a>
@@ -131,26 +171,30 @@ const Experience: React.FC = () => {
                     {experience.location}
                   </p>
                   
-                  <ul className="mt-4 space-y-2">
+                  <motion.ul 
+                    initial="hidden"
+                    animate="visible"
+                    variants={listVariants}
+                    className="mt-4 space-y-2"
+                  >
                     {experience.description.map((item, i) => (
                       <motion.li 
                         key={i} 
                         className="flex items-start group"
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.3 + (i * 0.1) }}
+                        variants={itemVariants}
+                        custom={i}
                         whileHover={{ x: 5 }}
                       >
                         <span className="text-primary mr-2 group-hover:scale-110 transition-transform">•</span>
                         <span className="group-hover:text-primary transition-colors">{item}</span>
                       </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                 </div>
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </motion.div>
   );

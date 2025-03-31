@@ -1,12 +1,17 @@
 
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Moon, Sun, Menu, X, Users } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import VerifiedBadge from './VerifiedBadge';
 import SocialLinks from './SocialLinks';
 import { motion } from 'framer-motion';
+import { 
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 
 const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -26,11 +31,15 @@ const Navbar: React.FC = () => {
     { name: 'Home', path: '/' },
     { name: 'Experience', path: '/experience' },
     { name: 'Education', path: '/education' },
+    { name: 'Social', path: '#', isSocial: true },
     { name: 'Contact', path: '/contact' },
   ];
 
   return (
-    <header
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
       className={cn(
         'fixed top-0 left-0 right-0 z-50 py-4 px-6 transition-all duration-300',
         {
@@ -55,20 +64,37 @@ const Navbar: React.FC = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6">
           {navItems.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.path}
-              className={({ isActive }) => cn(
-                'text-base font-medium transition-all hover-effect relative group',
-                {
-                  'text-primary dark:text-primary': isActive,
-                  'text-gray-700 dark:text-gray-200': !isActive,
-                }
-              )}
-            >
-              {item.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </NavLink>
+            item.isSocial ? (
+              <HoverCard key={item.name}>
+                <HoverCardTrigger asChild>
+                  <button className="text-base font-medium transition-all hover-effect relative group text-gray-700 dark:text-gray-200">
+                    <div className="flex items-center gap-1">
+                      <Users size={18} />
+                      <span>Social</span>
+                    </div>
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  </button>
+                </HoverCardTrigger>
+                <HoverCardContent className="w-auto p-2">
+                  <SocialLinks showLabels={true} className="flex-col space-y-2 space-x-0 items-start" />
+                </HoverCardContent>
+              </HoverCard>
+            ) : (
+              <NavLink
+                key={item.name}
+                to={item.path}
+                className={({ isActive }) => cn(
+                  'text-base font-medium transition-all hover-effect relative group',
+                  {
+                    'text-primary dark:text-primary': isActive,
+                    'text-gray-700 dark:text-gray-200': !isActive,
+                  }
+                )}
+              >
+                {item.name}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+              </NavLink>
+            )
           ))}
           
           <div className="h-6 w-px bg-gray-300 dark:bg-gray-700"></div>
@@ -127,28 +153,35 @@ const Navbar: React.FC = () => {
         >
           <nav className="flex flex-col space-y-4">
             {navItems.map((item) => (
-              <NavLink
-                key={item.name}
-                to={item.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className={({ isActive }) => cn(
-                  'text-base font-medium transition-all p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800',
-                  {
-                    'text-primary dark:text-primary bg-gray-100 dark:bg-gray-800': isActive,
-                    'text-gray-700 dark:text-gray-200': !isActive,
-                  }
-                )}
-              >
-                {item.name}
-              </NavLink>
+              item.isSocial ? (
+                <div key={item.name} className="p-2">
+                  <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2 flex items-center gap-1">
+                    <Users size={16} />
+                    Social Links
+                  </h3>
+                  <SocialLinks showLabels={true} className="flex-col space-y-2 space-x-0 items-start" />
+                </div>
+              ) : (
+                <NavLink
+                  key={item.name}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={({ isActive }) => cn(
+                    'text-base font-medium transition-all p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800',
+                    {
+                      'text-primary dark:text-primary bg-gray-100 dark:bg-gray-800': isActive,
+                      'text-gray-700 dark:text-gray-200': !isActive,
+                    }
+                  )}
+                >
+                  {item.name}
+                </NavLink>
+              )
             ))}
-            <div className="p-2">
-              <SocialLinks showLabels={true} className="flex-col space-y-2 space-x-0 items-start" />
-            </div>
           </nav>
         </motion.div>
       )}
-    </header>
+    </motion.header>
   );
 };
 

@@ -1,9 +1,10 @@
-
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, Star } from 'lucide-react';
 import { Link as RouterLink } from 'react-router-dom';
 import VerifiedBadge from '@/components/VerifiedBadge';
+import Skills from '@/components/Skills';
+import TechNews from '@/components/TechNews';
 
 const Home: React.FC = () => {
   const universeRef = useRef<HTMLDivElement>(null);
@@ -68,10 +69,19 @@ const Home: React.FC = () => {
     };
   }, []);
   
+  // Page transition variants
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    enter: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: 'easeIn' } }
+  };
+  
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      initial="initial"
+      animate="enter"
+      exit="exit"
+      variants={pageVariants}
       className="min-h-screen relative pt-20 overflow-hidden"
     >
       <div ref={universeRef} className="blurred-universe"></div>
@@ -159,6 +169,28 @@ const Home: React.FC = () => {
               Outside of my academic pursuits, I enjoy staying updated on the latest digital marketing trends and technologies. I am dedicated to continuous learning and professional growth.
             </p>
           </div>
+        </motion.div>
+      </div>
+
+      <div className="section-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <Skills />
+        </motion.div>
+      </div>
+
+      <div className="section-container">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          <TechNews />
         </motion.div>
       </div>
     </motion.div>
