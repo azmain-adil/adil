@@ -104,7 +104,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     <AnimatePresence>
       {!loadingComplete && (
         <motion.div
-          className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-background to-secondary/20 z-50"
+          className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 to-indigo-900/80 z-50"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
@@ -132,10 +132,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
                 transition={{ duration: 0.5 }}
                 className="absolute bottom-20 flex flex-col items-center z-10"
               >
-                <p className="text-gray-400 text-sm mb-3">Swipe up to continue</p>
+                <p className="text-gray-200 text-sm mb-3">Swipe up to continue</p>
                 <button 
                   onClick={handleSkip}
-                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-full bg-gray-800/30 backdrop-blur-sm animate-bounce"
+                  className="text-gray-200 hover:text-white transition-colors p-2 rounded-full bg-white/10 backdrop-blur-sm animate-bounce"
                 >
                   <ChevronUp size={24} />
                 </button>

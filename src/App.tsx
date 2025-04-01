@@ -23,23 +23,25 @@ const queryClient = new QueryClient();
 const pageVariants = {
   initial: { 
     opacity: 0,
-    y: 10
+    y: 20,
+    scale: 0.98
   },
   animate: { 
     opacity: 1, 
     y: 0,
+    scale: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.6,
       ease: [0.22, 1, 0.36, 1],
       when: "beforeChildren",
-      staggerChildren: 0.1
+      staggerChildren: 0.2
     }
   },
   exit: { 
     opacity: 0,
-    filter: "blur(8px)",
+    y: -10,
     transition: {
-      duration: 0.4,
+      duration: 0.5,
       ease: [0.22, 1, 0.36, 1]
     }
   }
@@ -52,7 +54,7 @@ const childVariants = {
     opacity: 1, 
     y: 0,
     transition: { 
-      duration: 0.5, 
+      duration: 0.7, 
       ease: [0.22, 1, 0.36, 1] 
     }
   }
