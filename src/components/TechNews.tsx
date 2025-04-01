@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Newspaper, ExternalLink, RefreshCw } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui/hover-card';
 
 interface NewsItem {
@@ -66,9 +65,9 @@ const TechNews: React.FC = () => {
   // Get random news articles
   const getRandomNews = () => {
     setRefreshing(true);
-    // Shuffle array and pick first 3 items
+    // Shuffle array and pick first 4 items
     const shuffled = [...techNews].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 3);
+    const selected = shuffled.slice(0, 4);
     setCurrentNews(selected);
     setLoading(false);
     
@@ -87,21 +86,6 @@ const TechNews: React.FC = () => {
 
     return () => clearInterval(interval);
   }, []);
-
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
-  };
 
   return (
     <div>
@@ -127,49 +111,49 @@ const TechNews: React.FC = () => {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : (
-        <motion.div 
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {currentNews.map((news, index) => (
-            <motion.div key={index} variants={item}>
-              <Card className="hover-effect overflow-hidden group h-full flex flex-col">
-                <CardHeader>
-                  <CardTitle className="group-hover:text-primary transition-colors duration-300">
-                    {news.title}
-                  </CardTitle>
-                  <CardDescription>
-                    {news.source} • {news.date}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p>{news.description}</p>
-                </CardContent>
-                <CardFooter className="pt-0">
-                  <HoverCard>
-                    <HoverCardTrigger asChild>
-                      <a 
-                        href={news.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary flex items-center gap-1 hover:underline"
-                      >
-                        Read more <ExternalLink className="h-3 w-3" />
-                      </a>
-                    </HoverCardTrigger>
-                    <HoverCardContent>
-                      Visit {news.source} to read the full article
-                    </HoverCardContent>
-                  </HoverCard>
-                </CardFooter>
-                <div className="h-1 w-0 bg-primary group-hover:w-full transition-all duration-500 ease-out"></div>
-              </Card>
-            </motion.div>
-          ))}
-        </motion.div>
+        <div className="relative w-full">
+          <div className="space-y-4">
+            {currentNews.map((news, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                className="w-full"
+              >
+                <div className="border border-gray-200 dark:border-gray-800 rounded-lg hover:border-primary hover:shadow-lg transition-all duration-300 p-4 flex flex-col">
+                  <div className="flex-1">
+                    <h3 className="font-bold text-lg mb-1 hover:text-primary transition-colors duration-300">
+                      {news.title}
+                    </h3>
+                    <p className="text-xs text-gray-500 mb-2">
+                      {news.source} • {news.date}
+                    </p>
+                    <p className="text-sm">{news.description}</p>
+                  </div>
+                  
+                  <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+                    <HoverCard>
+                      <HoverCardTrigger asChild>
+                        <a 
+                          href={news.url} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-primary flex items-center gap-1 hover:underline"
+                        >
+                          Read more <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </HoverCardTrigger>
+                      <HoverCardContent>
+                        Visit {news.source} to read the full article
+                      </HoverCardContent>
+                    </HoverCard>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       )}
     </div>
   );

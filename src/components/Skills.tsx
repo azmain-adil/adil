@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
 import VerifiedBadge from './VerifiedBadge';
 
 interface SkillProps {
@@ -50,13 +49,10 @@ const Skills: React.FC = () => {
       >
         {skills.map((skill, index) => (
           <motion.div key={index} variants={item}>
-            <Card className="hover-card overflow-hidden group">
-              <CardContent className="p-4 flex items-center space-x-2">
-                <VerifiedBadge className="text-primary h-5 w-5 group-hover:text-primary group-hover:scale-110 transition-all duration-300" />
-                <span className="font-medium group-hover:text-primary transition-colors duration-300">{skill.name}</span>
-              </CardContent>
-              <div className="h-1 w-0 bg-primary group-hover:w-full transition-all duration-500 ease-out"></div>
-            </Card>
+            <div className="flex items-center px-4 py-3 border border-gray-200 dark:border-gray-800 rounded-md hover:border-primary dark:hover:border-primary transition-all duration-300 group">
+              <VerifiedBadge className="text-primary h-5 w-5 group-hover:text-primary group-hover:scale-110 transition-all duration-300 mr-2" />
+              <span className="font-medium group-hover:text-primary transition-colors duration-300">{skill.name}</span>
+            </div>
           </motion.div>
         ))}
       </motion.div>

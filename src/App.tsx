@@ -15,31 +15,47 @@ import Experience from "./pages/Experience";
 import Education from "./pages/Education";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
-// Consistent page transition animations for all pages
+// Improved page transition animations with smoother and more modern feel
 const pageVariants = {
   initial: { 
-    opacity: 0, 
-    y: 10
+    opacity: 0,
+    y: 20,
+    scale: 0.98
   },
   animate: { 
     opacity: 1, 
     y: 0,
+    scale: 1,
     transition: {
       duration: 0.6,
-      ease: [0.25, 0.1, 0.25, 1.0],
+      ease: [0.22, 1, 0.36, 1],
       when: "beforeChildren",
-      staggerChildren: 0.1
+      staggerChildren: 0.2
     }
   },
   exit: { 
     opacity: 0,
     y: -10,
     transition: {
-      duration: 0.4,
-      ease: [0.25, 0.1, 0.25, 1.0]
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1]
+    }
+  }
+};
+
+// Improved child elements animations
+const childVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 0.7, 
+      ease: [0.22, 1, 0.36, 1] 
     }
   }
 };
@@ -60,6 +76,17 @@ const AnimatedRoutes = () => {
             className="page-wrapper"
           >
             <Home />
+          </motion.div>
+        } />
+        <Route path="/index" element={
+          <motion.div 
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="page-wrapper"
+          >
+            <Index />
           </motion.div>
         } />
         <Route path="/experience" element={
