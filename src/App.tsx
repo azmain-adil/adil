@@ -18,28 +18,28 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Improved page transition animations
+// Consistent page transition animations for all pages
 const pageVariants = {
   initial: { 
-    opacity: 0,
-    y: 15
+    opacity: 0, 
+    y: 10
   },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.6,
+      ease: [0.25, 0.1, 0.25, 1.0],
       when: "beforeChildren",
-      staggerChildren: 0.15
+      staggerChildren: 0.1
     }
   },
   exit: { 
     opacity: 0,
-    y: -15,
+    y: -10,
     transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1]
+      duration: 0.4,
+      ease: [0.25, 0.1, 0.25, 1.0]
     }
   }
 };
