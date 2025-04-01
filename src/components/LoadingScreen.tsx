@@ -38,20 +38,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   const [showSwipeUp, setShowSwipeUp] = useState(false);
 
   useEffect(() => {
-    // Add blurred background effect
-    const createBlurredBackground = () => {
-      const blurredBackground = document.createElement('div');
-      blurredBackground.className = 'blurred-background absolute inset-0';
-      blurredBackground.style.background = 'radial-gradient(circle at center, rgba(147, 112, 219, 0.2), rgba(20, 20, 40, 0.9))';
-      blurredBackground.style.filter = 'blur(80px)';
-      blurredBackground.style.zIndex = '-1';
-      document.body.appendChild(blurredBackground);
-      
-      return blurredBackground;
-    };
-    
-    const blurredBg = createBlurredBackground();
-
     // Change welcome message every 0.8 seconds (Apple-like speed)
     messageInterval.current = setInterval(() => {
       setCurrentMessageIndex((prev) => {
@@ -69,9 +55,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     loadingTimer.current = setTimeout(() => {
       setLoadingComplete(true);
       setTimeout(() => {
-        if (blurredBg.parentNode) {
-          blurredBg.parentNode.removeChild(blurredBg);
-        }
         onComplete();
       }, 1000);
     }, 10000);
@@ -91,9 +74,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       if (diffY > 50 && showSwipeUp) {
         setLoadingComplete(true);
         setTimeout(() => {
-          if (blurredBg.parentNode) {
-            blurredBg.parentNode.removeChild(blurredBg);
-          }
           onComplete();
         }, 800);
       }
@@ -107,9 +87,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
       if (loadingTimer.current) clearTimeout(loadingTimer.current);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchend', handleTouchEnd);
-      if (blurredBg.parentNode) {
-        blurredBg.parentNode.removeChild(blurredBg);
-      }
     };
   }, [onComplete, showSwipeUp]);
 
@@ -127,10 +104,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
     <AnimatePresence>
       {!loadingComplete && (
         <motion.div
-          className="fixed inset-0 flex flex-col items-center justify-center bg-black z-50"
+          className="fixed inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-background to-secondary/20 z-50"
           exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
+          {/* Add blurred universe for consistent look with home page */}
+          <div className="blurred-universe"></div>
+          
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,7 +130,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="absolute bottom-20 flex flex-col items-center"
+                className="absolute bottom-20 flex flex-col items-center z-10"
               >
                 <p className="text-gray-400 text-sm mb-3">Swipe up to continue</p>
                 <button 
