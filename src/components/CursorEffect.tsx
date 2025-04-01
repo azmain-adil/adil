@@ -3,49 +3,19 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const CursorEffect: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
-  const rippleRef = useRef<HTMLDivElement>(null);
   const [cursorVisible, setCursorVisible] = useState(true);
-  const [cursorScale, setCursorScale] = useState(1);
   const [cursorColor, setCursorColor] = useState('rgba(147, 112, 219, 0.6)'); // Purple color with transparency
-  const [lastClickPosition, setLastClickPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current && cursorDotRef.current) {
+      if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
         cursorRef.current.style.top = `${e.clientY}px`;
-        
-        // Small delay for the dot cursor for a trailing effect
-        setTimeout(() => {
-          if (cursorDotRef.current) {
-            cursorDotRef.current.style.left = `${e.clientX}px`;
-            cursorDotRef.current.style.top = `${e.clientY}px`;
-          }
-        }, 40); // Reduced delay for better responsiveness
       }
     };
 
     const handleMouseEnter = () => setCursorVisible(true);
     const handleMouseLeave = () => setCursorVisible(false);
-
-    // Create click ripple effect
-    const handleClick = (e: MouseEvent) => {
-      if (rippleRef.current) {
-        setLastClickPosition({ x: e.clientX, y: e.clientY });
-        rippleRef.current.style.left = `${e.clientX}px`;
-        rippleRef.current.style.top = `${e.clientY}px`;
-        rippleRef.current.style.animation = 'none';
-        // Trigger reflow
-        void rippleRef.current.offsetWidth;
-        rippleRef.current.style.animation = 'ripple 0.8s ease-out';
-      }
-    };
-
-    document.addEventListener('mousemove', moveCursor);
-    document.addEventListener('mouseenter', handleMouseEnter);
-    document.addEventListener('mouseleave', handleMouseLeave);
-    document.addEventListener('click', handleClick);
 
     // Add hover effect for interactive elements with more specific behaviors
     const addHoverEffectToElements = () => {
@@ -60,12 +30,11 @@ const CursorEffect: React.FC = () => {
       // General interactive elements
       interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
-          setCursorScale(1.5);
           setCursorColor('rgba(147, 112, 219, 0.3)'); // Lighter purple on hover
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'normal';
-            cursorRef.current.style.boxShadow = '0 0 15px rgba(147, 112, 219, 0.8)'; // Purple glow
+            cursorRef.current.style.backdropFilter = 'blur(3px)';
           }
 
           // Add a subtle transform to the element
@@ -74,12 +43,11 @@ const CursorEffect: React.FC = () => {
         });
 
         element.addEventListener('mouseleave', () => {
-          setCursorScale(1);
           setCursorColor('rgba(147, 112, 219, 0.6)');
           
           if (cursorRef.current) {
             cursorRef.current.style.mixBlendMode = 'difference';
-            cursorRef.current.style.boxShadow = 'none';
+            cursorRef.current.style.backdropFilter = 'blur(2px)';
           }
 
           // Reset transform
@@ -87,48 +55,21 @@ const CursorEffect: React.FC = () => {
         });
       });
 
-      // Special effect for headings
-      headings.forEach((heading) => {
-        heading.addEventListener('mouseenter', () => {
-          setCursorScale(1.5);
+      // Special effect for headings and images
+      [...headings, ...images].forEach((element) => {
+        element.addEventListener('mouseenter', () => {
           setCursorColor('rgba(147, 112, 219, 0.2)');
-          
-          // Add a text shadow to headings
-          (heading as HTMLElement).style.transition = 'text-shadow 0.3s ease';
-          (heading as HTMLElement).style.textShadow = '0 0 10px rgba(147, 112, 219, 0.6)';
         });
 
-        heading.addEventListener('mouseleave', () => {
-          setCursorScale(1);
+        element.addEventListener('mouseleave', () => {
           setCursorColor('rgba(147, 112, 219, 0.6)');
-          
-          // Reset text shadow
-          (heading as HTMLElement).style.textShadow = 'none';
-        });
-      });
-
-      // Special effect for images
-      images.forEach((image) => {
-        image.addEventListener('mouseenter', () => {
-          setCursorScale(1.5);
-          setCursorColor('rgba(147, 112, 219, 0.15)');
-          
-          // Add a subtle zoom effect to images
-          (image as HTMLElement).style.transition = 'filter 0.3s ease, transform 0.3s ease';
-          (image as HTMLElement).style.filter = 'brightness(1.05)';
-          (image as HTMLElement).style.transform = 'scale(1.02)';
-        });
-
-        image.addEventListener('mouseleave', () => {
-          setCursorScale(1);
-          setCursorColor('rgba(147, 112, 219, 0.6)');
-          
-          // Reset filter and transform
-          (image as HTMLElement).style.filter = 'brightness(1)';
-          (image as HTMLElement).style.transform = 'scale(1)';
         });
       });
     };
+
+    document.addEventListener('mousemove', moveCursor);
+    document.addEventListener('mouseenter', handleMouseEnter);
+    document.addEventListener('mouseleave', handleMouseLeave);
 
     // Initial setup and check for new elements every second (for dynamic content)
     addHoverEffectToElements();
@@ -138,50 +79,30 @@ const CursorEffect: React.FC = () => {
       document.removeEventListener('mousemove', moveCursor);
       document.removeEventListener('mouseenter', handleMouseEnter);
       document.removeEventListener('mouseleave', handleMouseLeave);
-      document.removeEventListener('click', handleClick);
       clearInterval(intervalId);
     };
   }, []);
 
   return (
-    <>
-      <div 
-        ref={cursorRef}
-        className="cursor-effect"
-        style={{ 
-          opacity: cursorVisible ? 1 : 0,
-          transform: `translate(-50%, -50%) scale(${cursorScale})`,
-          backgroundColor: cursorColor,
-          transition: 'transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease',
-          mixBlendMode: 'difference',
-          display: 'block',
-          width: '24px',  // Normal size cursor
-          height: '24px', // Normal size cursor
-          borderRadius: '50%',
-          backdropFilter: 'blur(2px)'
-        }}
-      />
-      <div
-        ref={cursorDotRef}
-        className="fixed w-2 h-2 bg-purple-400 rounded-full pointer-events-none z-[9999]"
-        style={{
-          opacity: cursorVisible ? 1 : 0,
-          transform: 'translate(-50%, -50%)',
-          transition: 'opacity 0.2s ease',
-          display: 'block',
-          boxShadow: '0 0 5px rgba(147, 112, 219, 0.8)'
-        }}
-      />
-      <div
-        ref={rippleRef}
-        className="ripple-effect fixed pointer-events-none z-[9998]"
-        style={{
-          left: `${lastClickPosition.x}px`,
-          top: `${lastClickPosition.y}px`,
-          backgroundColor: 'rgba(147, 112, 219, 0.3)'
-        }}
-      />
-    </>
+    <div 
+      ref={cursorRef}
+      className="fixed pointer-events-none z-[9999]"
+      style={{ 
+        opacity: cursorVisible ? 1 : 0,
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: cursorColor,
+        transition: 'opacity 0.2s ease, background-color 0.3s ease',
+        mixBlendMode: 'difference',
+        width: 'auto',
+        height: 'auto',
+        borderRadius: '0',
+        boxShadow: '0 0 15px rgba(147, 112, 219, 0.8)',
+        background: 'linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(180, 160, 230, 0.2))',
+        backdropFilter: 'blur(2px)',
+        padding: '8px',
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 75% 90%, 50% 100%, 25% 90%, 0% 100%)'
+      }}
+    />
   );
 };
 

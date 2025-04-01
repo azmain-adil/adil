@@ -127,6 +127,26 @@
   .underline-animation:hover::after {
     @apply w-full;
   }
+  
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(147, 112, 219, 0.3);
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(147, 112, 219, 0.5);
+  }
 }
 
 @layer components {
@@ -375,18 +395,16 @@
 
 .cursor-effect {
   position: fixed;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: rgba(147, 112, 219, 0.6);
-  mix-blend-mode: difference;
   pointer-events: none;
-  transform: translate(-50%, -50%);
   z-index: 9999;
-  transition: transform 0.15s ease, opacity 0.2s ease, background-color 0.3s ease;
-  display: block !important;
-  box-shadow: 0 0 15px rgba(147, 112, 219, 0.6);
-  backdrop-filter: blur(1px);
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(180, 160, 230, 0.2));
+  backdrop-filter: blur(2px);
+  box-shadow: 0 0 20px rgba(147, 112, 219, 0.6);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 75% 90%, 50% 100%, 25% 90%, 0% 100%);
+  padding: 8px;
+  width: auto;
+  height: auto;
 }
 
 @keyframes float-enhanced {
@@ -487,4 +505,35 @@ button:active, a:active {
   100% {
     left: 100%;
   }
+}
+
+.blurred-background {
+  background: radial-gradient(circle at center, rgba(147, 112, 219, 0.2), rgba(20, 20, 40, 0.9));
+  filter: blur(80px);
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-primary::-webkit-scrollbar-thumb {
+  background-color: rgba(147, 112, 219, 0.5);
+}
+
+.scrollbar-track-transparent::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.hover-card {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+              box-shadow 0.3s cubic-bezier(0.22, 1, 0.36, 1), 
+              border-color 0.3s ease;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(147, 112, 219, 0.3);
 }
