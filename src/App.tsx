@@ -15,45 +15,31 @@ import Experience from "./pages/Experience";
 import Education from "./pages/Education";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
-import Index from "./pages/Index";
 
 const queryClient = new QueryClient();
 
-// Improved page transition animations with smoother and more modern feel
+// Improved page transition animations
 const pageVariants = {
   initial: { 
     opacity: 0,
-    y: 10
+    y: 15
   },
   animate: { 
     opacity: 1, 
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.8,
       ease: [0.22, 1, 0.36, 1],
       when: "beforeChildren",
-      staggerChildren: 0.1
+      staggerChildren: 0.15
     }
   },
   exit: { 
     opacity: 0,
-    filter: "blur(8px)",
+    y: -15,
     transition: {
-      duration: 0.4,
+      duration: 0.6,
       ease: [0.22, 1, 0.36, 1]
-    }
-  }
-};
-
-// Improved child elements animations
-const childVariants = {
-  initial: { opacity: 0, y: 20 },
-  animate: { 
-    opacity: 1, 
-    y: 0,
-    transition: { 
-      duration: 0.5, 
-      ease: [0.22, 1, 0.36, 1] 
     }
   }
 };
@@ -74,17 +60,6 @@ const AnimatedRoutes = () => {
             className="page-wrapper"
           >
             <Home />
-          </motion.div>
-        } />
-        <Route path="/index" element={
-          <motion.div 
-            variants={pageVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            className="page-wrapper"
-          >
-            <Index />
           </motion.div>
         } />
         <Route path="/experience" element={

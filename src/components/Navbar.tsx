@@ -5,6 +5,7 @@ import { Moon, Sun, Menu, X } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { cn } from '@/lib/utils';
 import VerifiedBadge from './VerifiedBadge';
+import SocialLinks from './SocialLinks';
 import { motion } from 'framer-motion';
 
 const Navbar: React.FC = () => {
@@ -73,6 +74,10 @@ const Navbar: React.FC = () => {
             </NavLink>
           ))}
           
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-700"></div>
+          
+          <SocialLinks iconSize={18} className="ml-2" />
+          
           <button 
             onClick={toggleTheme}
             className="theme-switch p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
@@ -140,6 +145,12 @@ const Navbar: React.FC = () => {
                 {item.name}
               </NavLink>
             ))}
+            <div className="p-2">
+              <h3 className="text-base font-medium text-gray-700 dark:text-gray-200 mb-2">
+                Connect with me
+              </h3>
+              <SocialLinks showLabels={true} className="flex-col space-y-2 space-x-0 items-start" />
+            </div>
           </nav>
         </motion.div>
       )}

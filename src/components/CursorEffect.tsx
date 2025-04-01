@@ -3,20 +3,14 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const CursorEffect: React.FC = () => {
   const cursorRef = useRef<HTMLDivElement>(null);
-  const cursorDotRef = useRef<HTMLDivElement>(null);
   const [cursorVisible, setCursorVisible] = useState(true);
   const [cursorColor, setCursorColor] = useState('rgba(147, 112, 219, 0.6)'); // Purple color with transparency
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
-      if (cursorRef.current && cursorDotRef.current) {
-        // The larger circle follows with a slight delay (macOS style)
+      if (cursorRef.current) {
         cursorRef.current.style.left = `${e.clientX}px`;
         cursorRef.current.style.top = `${e.clientY}px`;
-        
-        // The dot follows cursor exactly (macOS pointer dot)
-        cursorDotRef.current.style.left = `${e.clientX}px`;
-        cursorDotRef.current.style.top = `${e.clientY}px`;
       }
     };
 
@@ -36,23 +30,28 @@ const CursorEffect: React.FC = () => {
       // General interactive elements
       interactiveElements.forEach((element) => {
         element.addEventListener('mouseenter', () => {
-          setCursorColor('rgba(147, 112, 219, 0.2)'); // Lighter purple on hover
+          setCursorColor('rgba(147, 112, 219, 0.3)'); // Lighter purple on hover
           
           if (cursorRef.current) {
-            cursorRef.current.style.width = '32px';
-            cursorRef.current.style.height = '32px';
             cursorRef.current.style.mixBlendMode = 'normal';
+            cursorRef.current.style.backdropFilter = 'blur(3px)';
           }
+
+          // Add a subtle transform to the element
+          (element as HTMLElement).style.transition = 'transform 0.3s ease';
+          (element as HTMLElement).style.transform = 'translateY(-2px)';
         });
 
         element.addEventListener('mouseleave', () => {
           setCursorColor('rgba(147, 112, 219, 0.6)');
           
           if (cursorRef.current) {
-            cursorRef.current.style.width = '24px';
-            cursorRef.current.style.height = '24px';
             cursorRef.current.style.mixBlendMode = 'difference';
+            cursorRef.current.style.backdropFilter = 'blur(2px)';
           }
+
+          // Reset transform
+          (element as HTMLElement).style.transform = 'translateY(0)';
         });
       });
 
@@ -85,42 +84,25 @@ const CursorEffect: React.FC = () => {
   }, []);
 
   return (
-    <>
-      {/* MacOS style outer cursor circle */}
-      <div 
-        ref={cursorRef}
-        className="fixed pointer-events-none z-[9999]"
-        style={{ 
-          opacity: cursorVisible ? 1 : 0,
-          transform: 'translate(-50%, -50%)',
-          width: '24px',
-          height: '24px',
-          borderRadius: '50%',
-          backgroundColor: 'transparent',
-          border: `1px solid ${cursorColor}`,
-          transition: 'width 0.2s, height 0.2s, opacity 0.2s, background-color 0.3s, border 0.3s',
-          boxShadow: '0 0 10px rgba(147, 112, 219, 0.4)',
-          background: 'radial-gradient(circle, rgba(147, 112, 219, 0.1), transparent)',
-          backdropFilter: 'blur(1px)'
-        }}
-      />
-      
-      {/* MacOS style inner cursor dot */}
-      <div
-        ref={cursorDotRef}
-        className="fixed pointer-events-none z-[9999]"
-        style={{
-          opacity: cursorVisible ? 1 : 0,
-          transform: 'translate(-50%, -50%)',
-          width: '4px',
-          height: '4px',
-          borderRadius: '50%',
-          backgroundColor: cursorColor,
-          transition: 'opacity 0.1s',
-          boxShadow: '0 0 5px rgba(147, 112, 219, 0.8)'
-        }}
-      />
-    </>
+    <div 
+      ref={cursorRef}
+      className="fixed pointer-events-none z-[9999]"
+      style={{ 
+        opacity: cursorVisible ? 1 : 0,
+        transform: 'translate(-50%, -50%)',
+        backgroundColor: cursorColor,
+        transition: 'opacity 0.2s ease, background-color 0.3s ease',
+        mixBlendMode: 'difference',
+        width: 'auto',
+        height: 'auto',
+        borderRadius: '0',
+        boxShadow: '0 0 15px rgba(147, 112, 219, 0.8)',
+        background: 'linear-gradient(135deg, rgba(147, 112, 219, 0.3), rgba(180, 160, 230, 0.2))',
+        backdropFilter: 'blur(2px)',
+        padding: '8px',
+        clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 75% 90%, 50% 100%, 25% 90%, 0% 100%)'
+      }}
+    />
   );
 };
 

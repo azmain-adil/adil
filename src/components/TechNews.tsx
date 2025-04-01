@@ -65,7 +65,7 @@ const TechNews: React.FC = () => {
   // Get random news articles
   const getRandomNews = () => {
     setRefreshing(true);
-    // Shuffle array and pick first 4 items
+    // Shuffle array and pick first 4 items for horizontal layout
     const shuffled = [...techNews].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, 4);
     setCurrentNews(selected);
@@ -111,19 +111,19 @@ const TechNews: React.FC = () => {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : (
-        <div className="relative w-full">
-          <div className="space-y-4">
+        <div className="relative w-full overflow-hidden">
+          <div className="flex gap-6 items-stretch overflow-x-auto pb-4 snap-x scrollbar-thin scrollbar-thumb-primary scrollbar-track-transparent">
             {currentNews.map((news, index) => (
               <motion.div 
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="w-full"
+                className="flex-shrink-0 w-[300px] snap-start"
               >
-                <div className="border border-gray-200 dark:border-gray-800 rounded-lg hover:border-primary hover:shadow-lg transition-all duration-300 p-4 flex flex-col">
+                <div className="border border-gray-200 dark:border-gray-800 rounded-lg h-full hover:border-primary hover:shadow-lg transition-all duration-300 p-4 flex flex-col">
                   <div className="flex-1">
-                    <h3 className="font-bold text-lg mb-1 hover:text-primary transition-colors duration-300">
+                    <h3 className="font-bold mb-1 hover:text-primary transition-colors duration-300">
                       {news.title}
                     </h3>
                     <p className="text-xs text-gray-500 mb-2">
